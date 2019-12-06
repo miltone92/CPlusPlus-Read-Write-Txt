@@ -1,0 +1,3 @@
+﻿  Source.cpp
+c:\users\milton\source\repos\c++\textfile\textfile\source.cpp(13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  TextFile.vcxproj -> C:\Users\milton\source\repos\C++\TextFile\Debug\TextFile.exe
