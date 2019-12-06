@@ -156,26 +156,37 @@ void modify() {
 	string newName;
 	getline(cin, newName);
 
-
-
 	//**********Text file data*******
 	int id;
 	string name;
+	string sid;
 
 	//********************************
 	ifstream myTxtFile("myFile.txt");// Declaration to read from existing file: used to get all lines
-	ifstream myTxtFile2("myFile.txt");// Declaration to read from existing file: used to get specific data
-
-
-
 	string line;
 	string allData;
 	if (myTxtFile.is_open()) {
 		while (getline(myTxtFile, line)) {
-			while (myTxtFile2 >> id >> name) {
+			
+			//get id
+			string word;
+			for (auto x : line)
+			{
+				if (x == ' ')
+				{
+					id = stoi(word);
+					word = "";
+					break;
+				}
+				else
+				{
+					word = word + x;
+				}
+			}
 
-
-
+			//Check if line is not empry
+			if (line != "") {
+				//if id matches line should be modified
 				if (id == desiredId) {
 					cout << "Old data: " << "Id: " << id << " Name: " << name << "\n";
 					cout << "Modified data: " << "Id: " << id << " Name: " << newName << "\n";
@@ -186,20 +197,20 @@ void modify() {
 
 					allData += line + "\n";
 				}
-
 			}
-
 		}
 	}
 	else {
 		cout << "File not open \n";
 	}
+
 	//re write file with updated data
 	myFile.open("myFile.txt"); //Open txt file without append mode
 	//Wirte to file
 	if (myFile.is_open()) {
 		cout << allData << "\n";
 		myFile << allData << "\n";
+		cout << "Data was modified! \n";
 	}
 	else {
 		cout << "File is not open \n";
