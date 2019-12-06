@@ -5,13 +5,14 @@ using namespace std;
 
 void menu();
 void write();
-void readLine();
+void readLines();
 void readData();
+void modify();
 ofstream myFile; //Text file declaration
 
 
 void main() {
-	
+
 
 
 
@@ -26,7 +27,7 @@ void menu() {
 		cout << "Menu" << "\n";
 		cout << "1. Write to file" << "\n";
 		cout << "2. Read file" << "\n";
-		cout << "3. " << "\n";
+		cout << "3. Modify file" << "\n";
 		cout << "4. " << "\n";
 		cout << "5. " << "\n";
 		cout << "6. " << "\n";
@@ -45,6 +46,7 @@ void menu() {
 			break;
 
 		case 3:
+			modify();
 			break;
 
 		case 4:
@@ -70,7 +72,7 @@ void menu() {
 }
 
 void write() {
-	
+
 	cout << "Please student id \n";
 	string id;
 	getline(cin, id);
@@ -114,12 +116,12 @@ void readLines() {
 	else {
 		cout << "File not open \n";
 	}
-	
+
 }
 
 
 
-//Method allows to specific data from file
+//Method allows to read specific data from file
 void readData() {
 
 	//**********Text file data*******
@@ -130,7 +132,7 @@ void readData() {
 	ifstream myTxtFile("myFile.txt");// Declaration to read from existing file
 
 	cout << "Text file data: \n";
-	string line;
+
 	if (myTxtFile.is_open()) {
 		while (myTxtFile >> id >> name) {
 			//The first word will be saved in id variable, then name variable
@@ -142,3 +144,69 @@ void readData() {
 	}
 
 }
+
+
+//Method allows to modify specific data from file
+void modify() {
+	cout << "Enter the id of the desired student \n";
+	int desiredId;
+	cin >> desiredId;
+	cin.ignore();
+	cout << "Enter the new name of the desired student \n";
+	string newName;
+	getline(cin, newName);
+
+
+
+	//**********Text file data*******
+	int id;
+	string name;
+
+	//********************************
+	ifstream myTxtFile("myFile.txt");// Declaration to read from existing file: used to get all lines
+	ifstream myTxtFile2("myFile.txt");// Declaration to read from existing file: used to get specific data
+
+
+
+	string line;
+	string allData;
+	if (myTxtFile.is_open()) {
+		while (getline(myTxtFile, line)) {
+			while (myTxtFile2 >> id >> name) {
+
+
+
+				if (id == desiredId) {
+					cout << "Old data: " << "Id: " << id << " Name: " << name << "\n";
+					cout << "Modified data: " << "Id: " << id << " Name: " << newName << "\n";
+					string sid = to_string(id);
+					allData += sid + " " + newName + "\n";;
+				}
+				else {
+
+					allData += line + "\n";
+				}
+
+			}
+
+		}
+	}
+	else {
+		cout << "File not open \n";
+	}
+	//re write file with updated data
+	myFile.open("myFile.txt"); //Open txt file without append mode
+	//Wirte to file
+	if (myFile.is_open()) {
+		cout << allData << "\n";
+		myFile << allData << "\n";
+	}
+	else {
+		cout << "File is not open \n";
+	}
+	//Close file
+	myFile.close();
+
+}
+
+
